@@ -14,7 +14,7 @@
   "license": "none",
   "dependencies": {
     "bluebird": "^3.5.5",
-    "config": "^3.2.0",
+    "config": "^3.3.6",
     "informix-wrapper": "git+https://github.com/appirio-tech/informix-wrapper.git#less-logs",
     "lodash": "^4.17.14",
     "pg": "^7.10.0",
