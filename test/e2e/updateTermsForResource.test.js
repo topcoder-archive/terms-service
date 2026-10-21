@@ -25,7 +25,7 @@ module.exports = describe('update terms for resource endpoint', () => {
   const notFoundId = 'b41d1974-5823-473e-bacb-7eed17500ad1'
 
   it('fully update terms for resource using m2m token success', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.tag = 'm2m-test'
     const res = await putRequest(`${url}/${id1}`, data, token.m2mWrite)
     const record = await TermsForResource.findOne({ where: { id: res.body.id }, raw: true })
@@ -52,7 +52,7 @@ module.exports = describe('update terms for resource endpoint', () => {
   })
 
   it('fully update terms for resource success', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     const res = await putRequest(`${url}/${id1}`, data, token.user1)
     const record = await TermsForResource.findOne({ where: { id: res.body.id }, raw: true })
     should.equal(record.reference, 'new-reference')
@@ -78,7 +78,7 @@ module.exports = describe('update terms for resource endpoint', () => {
   })
 
   it('fully update terms for resource, change terms id success', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.termsOfUseIds = [termsOfUseIdsMapping[21305]]
     const res = await putRequest(`${url}/${id1}`, data, token.user1)
     const record = await TermsForResource.findOne({ where: { id: res.body.id }, raw: true })
@@ -103,51 +103,51 @@ module.exports = describe('update terms for resource endpoint', () => {
   })
 
   it('failure - fully update terms for resource no token', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
   it('failure - fully update terms for resource invalid token', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data, 'invalid')
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
   it('failure - fully update terms for resource forbidden', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data, token.user2)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - fully update terms for resource using forbidden m2m token', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data, token.m2mRead)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - fully update terms for resource not found', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await putRequest(`${url}/${notFoundId}`, data, token.user1)
       throw new Error('should not throw error here')
@@ -158,7 +158,7 @@ module.exports = describe('update terms for resource endpoint', () => {
   })
 
   it('failure - fully update terms for resource duplicate', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.reference = 'challenge'
     data.referenceId = '12346'
     data.tag = 'copilot'
@@ -167,12 +167,12 @@ module.exports = describe('update terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `Duplicate terms reference for tuple { reference: 'challenge', referenceId: '12346', tag: 'copilot' }`)
+      should.equal(_.get(err, 'response.body.message'), 'Duplicate terms reference for tuple { reference: \'challenge\', referenceId: \'12346\', tag: \'copilot\' }')
     }
   })
 
   it('failure - fully update terms for resource invalid terms id', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-1'])
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-2'])
     try {
@@ -251,46 +251,46 @@ module.exports = describe('update terms for resource endpoint', () => {
   })
 
   it('failure - partially update terms for resource no token', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
   it('failure - partially update terms for resource invalid token', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data, 'invalid')
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
   it('failure - partially update terms for resource forbidden', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data, token.user2)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - partially update terms for resource using forbidden m2m token', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data, token.m2mRead)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -301,7 +301,7 @@ module.exports = describe('update terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `Duplicate terms reference for tuple { reference: 'challenge', referenceId: '12346', tag: 'copilot' }`)
+      should.equal(_.get(err, 'response.body.message'), 'Duplicate terms reference for tuple { reference: \'challenge\', referenceId: \'12346\', tag: \'copilot\' }')
     }
   })
 
@@ -318,7 +318,7 @@ module.exports = describe('update terms for resource endpoint', () => {
   })
 
   it('failure - partially update terms for resource not found', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await patchRequest(`${url}/${notFoundId}`, data, token.user1)
       throw new Error('should not throw error here')

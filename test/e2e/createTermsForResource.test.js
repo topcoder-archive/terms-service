@@ -21,7 +21,7 @@ module.exports = describe('create terms for resource endpoint', () => {
   })
 
   it('create terms for resource success', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     const res = await postRequest(url, data, token.user1)
     const record = await TermsForResource.findOne({ where: { id: res.body.id }, raw: true })
     should.equal(record.reference, 'challenge')
@@ -42,7 +42,7 @@ module.exports = describe('create terms for resource endpoint', () => {
   })
 
   it('create terms for resource using m2m token success', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     data.tag = 'manager'
     const res = await postRequest(url, data, token.m2mWrite)
     const record = await TermsForResource.findOne({ where: { id: res.body.id }, raw: true })
@@ -64,18 +64,18 @@ module.exports = describe('create terms for resource endpoint', () => {
   })
 
   it('failure - create terms for resource again, duplicate', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     try {
       await postRequest(url, data, token.user1)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `Duplicate terms reference for tuple { reference: 'challenge', referenceId: '12346', tag: 'copilot' }`)
+      should.equal(_.get(err, 'response.body.message'), 'Duplicate terms reference for tuple { reference: \'challenge\', referenceId: \'12346\', tag: \'copilot\' }')
     }
   })
 
   it('failure - create terms for resource again, invalid terms id', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     data.referenceId = '10000'
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-1'])
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-2'])
@@ -104,46 +104,46 @@ module.exports = describe('create terms for resource endpoint', () => {
   }
 
   it('failure - create terms for resource no token', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     try {
       await postRequest(url, data)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
   it('failure - create terms for resource invalid token', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     try {
       await postRequest(url, data, 'invalid')
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
   it('failure - create terms for resource forbidden', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     try {
       await postRequest(url, data, token.user2)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - create terms for resource using forbidden m2m token', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     try {
       await postRequest(url, data, token.m2mRead)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 })

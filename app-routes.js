@@ -8,11 +8,14 @@ const HttpStatus = require('http-status-codes')
 const helper = require('./src/common/helper')
 const errors = require('./src/common/errors')
 const routes = require('./src/routes')
-const authenticator = require('tc-core-library-js').middleware.jwtAuthenticator
+const { authenticate, hasRequiredScopes } = require('./src/common/auth')
 
 /**
- * Configure all routes for express app
- * @param app the express app
+ * Register routes with shared-core validation and explicit service scope checks.
+ * @param app Express application receiving the route handlers.
+ * @returns {void} Invalid tokens produce 401; insufficient scopes/roles produce 403.
+ * Optional authentication preserves anonymous access but supplied service tokens
+ * must satisfy the declared scopes, including read:terms on individual terms.
  */
 module.exports = (app) => {
   // Load all routes
@@ -34,7 +37,7 @@ module.exports = (app) => {
       if (def.auth || def.optionalAuth) {
         actions.push((req, res, next) => {
           if (def.auth || (def.optionalAuth && req.headers.authorization)) {
-            authenticator(_.pick(config, ['AUTH_SECRET', 'VALID_ISSUERS']))(req, res, next)
+            authenticate(req, res, next)
           } else {
             next()
           }
@@ -44,7 +47,7 @@ module.exports = (app) => {
           if (def.auth || (def.optionalAuth && req.headers.authorization)) {
             if (req.authUser.isMachine) {
               // M2M
-              if (!def.optionalAuth && (!def.scopes || (!req.authUser.scopes || !helper.checkIfExists(def.scopes, req.authUser.scopes)))) {
+              if (!hasRequiredScopes(def, req.authUser)) {
                 throw new errors.ForbiddenError('You are not allowed to perform this action!')
               }
             } else {

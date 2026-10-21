@@ -193,7 +193,7 @@ module.exports = describe('docusign Callback', () => {
       connectKey: config.DOCUSIGN.CALLBACK_CONNECT_KEY
     })
     should.equal(result.message, 'success')
-    assertInfoMessage(`Status is not completed.`)
+    assertInfoMessage('Status is not completed.')
   })
 
   it('Ignore - envelopeId is empty', async () => {
@@ -204,7 +204,7 @@ module.exports = describe('docusign Callback', () => {
       connectKey: config.DOCUSIGN.CALLBACK_CONNECT_KEY
     })
     should.equal(result.message, 'success')
-    assertErrorMessage(`envelopeId is null or empty`)
+    assertErrorMessage('envelopeId is null or empty')
   })
 
   it('Ignore - no envelope found', async () => {
@@ -215,7 +215,7 @@ module.exports = describe('docusign Callback', () => {
       connectKey: config.DOCUSIGN.CALLBACK_CONNECT_KEY
     })
     should.equal(result.message, 'success')
-    assertErrorMessage(`No enevelope with id: not-found was found.`)
+    assertErrorMessage('No enevelope with id: not-found was found.')
   })
 
   it('Ignore - no envelope found', async () => {
@@ -226,6 +226,6 @@ module.exports = describe('docusign Callback', () => {
       connectKey: config.DOCUSIGN.CALLBACK_CONNECT_KEY
     })
     should.equal(result.message, 'success')
-    assertWarnMessage(`No Template was found for template id: 12345678`)
+    assertWarnMessage('No Template was found for template id: 12345678')
   })
 })

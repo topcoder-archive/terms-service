@@ -48,7 +48,7 @@ async function getTermsOfUse (currentUser, termsOfUseId, query) {
   ]
   if (userId) {
     // logger.debug(`Getting Terms for User ${userId}`)
-    
+
     include.push({
       model: UserTermsOfUseXref,
       as: 'UserTermsOfUseXrefs',
@@ -158,7 +158,7 @@ async function agreeTermsOfUse (currentUser, termsOfUseId) {
   })
   for (let i = 0; i < dependency.length; i++) {
     if (_.isNull(dependency[i]['UserTermsOfUseXrefs.userId'])) {
-      throw new errors.BadRequestError(`You can't agree to this terms of use before you have agreed to all the dependencies terms of use.`)
+      throw new errors.BadRequestError('You can\'t agree to this terms of use before you have agreed to all the dependencies terms of use.')
     }
   }
 
@@ -273,7 +273,7 @@ async function createTermsOfUse (currentUser, termsOfUse) {
   termsOfUse.created = new Date()
   termsOfUse.createdBy = currentUser.handle || currentUser.sub
 
-  let created = await TermsOfUse.create(_.omit(termsOfUse, 'docusignTemplateId'))
+  const created = await TermsOfUse.create(_.omit(termsOfUse, 'docusignTemplateId'))
   termsOfUse.id = created.id
 
   if (termsOfUse.docusignTemplateId) {
@@ -511,7 +511,7 @@ async function getTermsOfUseUsers (termsOfUseId, query) {
   const page = query.page > 0 ? query.page : 1
   const perPage = query.perPage > 0 ? query.perPage : 20
 
-  let where = {}
+  const where = {}
   if (query.userId) {
     const userIds = query.userId.split(',').map(s => s.trim())
     where.userId = { [models.Sequelize.Op.in]: userIds }

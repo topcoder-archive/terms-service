@@ -129,7 +129,7 @@ module.exports = describe('delete and search terms of use', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -139,7 +139,7 @@ module.exports = describe('delete and search terms of use', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 })

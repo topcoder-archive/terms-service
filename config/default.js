@@ -6,18 +6,19 @@ module.exports = {
   LOG_LEVEL: process.env.LOG_LEVEL || 'debug',
   PORT: process.env.PORT || 3000,
 
-  AUTH_SECRET: process.env.AUTH_SECRET || 'mysecret',
-  VALID_ISSUERS: process.env.VALID_ISSUERS || '["https://api.topcoder-dev.com", "https://api.topcoder.com", "https://topcoder-dev.auth0.com/"]',
+  AUTH_SECRET: process.env.AUTH_SECRET,
+  VALID_ISSUERS: process.env.VALID_ISSUERS || '[]',
 
   POSTGRES_URL: process.env.POSTGRES_URL || 'postgres://postgres:@localhost:5432/postgres',
   DB_SCHEMA_NAME: process.env.DB_SCHEMA_NAME || 'termsdb',
 
-  AUTH0_URL: process.env.AUTH0_URL || 'https://topcoder-dev.auth0.com/oauth/token',
-  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE || 'https://m2m.topcoder-dev.com/',
-  TOKEN_CACHE_TIME: process.env.TOKEN_CACHE_TIME || 120,
-  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
-  AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
-  AUTH0_PROXY_SERVER_URL: process.env.AUTH0_PROXY_SERVER_URL || 'https://topcoder-dev.auth0.com/oauth/token',
+  M2M_PROVIDER: process.env.M2M_PROVIDER,
+  KEYCLOAK_ISSUER: process.env.KEYCLOAK_ISSUER,
+  KEYCLOAK_AUDIENCE: process.env.KEYCLOAK_AUDIENCE,
+  KEYCLOAK_TOKEN_URL: process.env.KEYCLOAK_TOKEN_URL,
+  KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
+  KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET,
+  KEYCLOAK_SCOPE: process.env.KEYCLOAK_SCOPE,
 
   USER_API_URL: process.env.USER_API_URL || 'https://api.topcoder-dev.com/v5/members',
 

@@ -25,7 +25,7 @@ module.exports = describe('get terms of use', () => {
     should.equal(result.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use by user who hasn't agreed`, async () => {
+  it('get terms of use by user who hasn\'t agreed', async () => {
     const result = await service.getTermsOfUse(user.user2, termsOfUseIdsMapping[21303], {})
     should.equal(result.id, termsOfUseIdsMapping[21303])
     should.equal(result.title, 'Standard Terms for Topcoder Competitions v2.2')
@@ -35,7 +35,7 @@ module.exports = describe('get terms of use', () => {
     should.equal(result.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use`, async () => {
+  it('get terms of use', async () => {
     const result = await service.getTermsOfUse(undefined, termsOfUseIdsMapping[21303])
     should.equal(result.id, termsOfUseIdsMapping[21303])
     should.equal(result.title, 'Standard Terms for Topcoder Competitions v2.2')
@@ -45,7 +45,7 @@ module.exports = describe('get terms of use', () => {
     should.equal(result.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use using m2m token`, async () => {
+  it('get terms of use using m2m token', async () => {
     const result = await service.getTermsOfUse(user.m2mWrite, termsOfUseIdsMapping[21303])
     should.equal(result.id, termsOfUseIdsMapping[21303])
     should.equal(result.title, 'Standard Terms for Topcoder Competitions v2.2')
@@ -55,7 +55,7 @@ module.exports = describe('get terms of use', () => {
     should.equal(result.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use is false with user`, async () => {
+  it('get terms of use is false with user', async () => {
     const result = await service.getTermsOfUse(user.user1, termsOfUseIdsMapping[21303])
     should.equal(result.id, termsOfUseIdsMapping[21303])
     should.equal(result.title, 'Standard Terms for Topcoder Competitions v2.2')
@@ -65,7 +65,7 @@ module.exports = describe('get terms of use', () => {
     should.equal(result.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use with docusignTemplateId`, async () => {
+  it('get terms of use with docusignTemplateId', async () => {
     const result = await service.getTermsOfUse(undefined, termsOfUseIdsMapping[21304])
     should.equal(result.id, termsOfUseIdsMapping[21304])
     should.equal(result.title, 'Standard Terms for Topcoder Competitions v2.2')
@@ -96,12 +96,12 @@ module.exports = describe('get terms of use', () => {
     }
   })
 
-  it(`failure - invalid parameter termsOfUseId`, async () => {
+  it('failure - invalid parameter termsOfUseId', async () => {
     try {
       await service.getTermsOfUse(undefined, 123)
       throw new Error('should not throw error here')
     } catch (err) {
-      assertValidationError(err, `"termsOfUseId" must be a string`)
+      assertValidationError(err, '"termsOfUseId" must be a string')
     }
   })
 

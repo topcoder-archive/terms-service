@@ -44,7 +44,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"invalid" is not allowed`)
+      should.equal(_.get(err, 'response.body.message'), '"invalid" is not allowed')
     }
   })
 
@@ -54,7 +54,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
@@ -64,7 +64,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
@@ -74,7 +74,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -84,7 +84,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -109,7 +109,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `No terms for resouce exist with Reference(challenge) and ReferenceId(12345) for the following tags: [ 'invalid1', 'invalid2' ]`)
+      should.equal(_.get(err, 'response.body.message'), 'No terms for resouce exist with Reference(challenge) and ReferenceId(12345) for the following tags: [ \'invalid1\', \'invalid2\' ]')
     }
   })
 
@@ -119,7 +119,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
@@ -129,7 +129,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
@@ -139,7 +139,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -149,7 +149,7 @@ module.exports = describe('search and check terms for resource endpoint', () => 
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 })

@@ -22,7 +22,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
   it('generate docusign view url(AFFIDAVIT) success', async () => {
     const res = await postRequest(url, {
       templateId: config.DOCUSIGN.AFFIDAVIT_TEMPLATE_ID,
-      tabs: [ 'testKey||testValue' ]
+      tabs: ['testKey||testValue']
     }, token.user4)
     docuEnvelope = await DocusignEnvelope.findOne({
       where: { userId: user.user4.userId, docusignTemplateId: config.DOCUSIGN.AFFIDAVIT_TEMPLATE_ID, isCompleted: 0 }
@@ -37,7 +37,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
     try {
       const res = await postRequest(url, {
         templateId: config.DOCUSIGN.AFFIDAVIT_TEMPLATE_ID,
-        tabs: [ 'testKey||testValue' ]
+        tabs: ['testKey||testValue']
       }, token.user4)
 
       should.equal(res.status, 200)
@@ -51,7 +51,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
   it('generate docusign view url(NDA) success', async () => {
     const res = await postRequest(url, {
       templateId: config.DOCUSIGN.NDA_TEMPLATE_ID,
-      tabs: [ 'testKey||testValue' ]
+      tabs: ['testKey||testValue']
     }, token.user4)
 
     docuEnvelope = await DocusignEnvelope.findOne({
@@ -65,7 +65,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
   it('generate docusign view url(W8BEN) success', async () => {
     const res = await postRequest(url, {
       templateId: config.DOCUSIGN.W8BEN_TEMPLATE_ID,
-      tabs: [ 'testKey||testValue' ]
+      tabs: ['testKey||testValue']
     }, token.user4)
 
     docuEnvelope = await DocusignEnvelope.findOne({
@@ -79,7 +79,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
   it('generate docusign view url(W9) success', async () => {
     const res = await postRequest(url, {
       templateId: config.DOCUSIGN.W9TEMPLATE_ID,
-      tabs: [ 'testKey||testValue' ]
+      tabs: ['testKey||testValue']
     }, token.user4)
 
     docuEnvelope = await DocusignEnvelope.findOne({
@@ -93,7 +93,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
   it('generate docusign view url(ASSIGNMENT) by user4 success', async () => {
     const res = await postRequest(url, {
       templateId: config.DOCUSIGN.ASSIGNMENT_V2_TEMPLATE_ID,
-      tabs: [ 'testKey||testValue' ]
+      tabs: ['testKey||testValue']
     }, token.user4)
 
     docuEnvelope = await DocusignEnvelope.findOne({
@@ -107,7 +107,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
   it('generate docusign view url(ASSIGNMENT) by user2 success', async () => {
     const res = await postRequest(url, {
       templateId: config.DOCUSIGN.ASSIGNMENT_V2_TEMPLATE_ID,
-      tabs: [ 'testKey||testValue' ]
+      tabs: ['testKey||testValue']
     }, token.user2)
 
     docuEnvelope = await DocusignEnvelope.findOne({
@@ -121,7 +121,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
   it('generate docusign view url(ASSIGNMENT) by user3 success', async () => {
     const res = await postRequest(url, {
       templateId: config.DOCUSIGN.ASSIGNMENT_V2_TEMPLATE_ID,
-      tabs: [ 'testKey||testValue' ]
+      tabs: ['testKey||testValue']
     }, token.user3)
 
     docuEnvelope = await DocusignEnvelope.findOne({
@@ -132,11 +132,11 @@ module.exports = describe('Generate docusign view url endpoint', () => {
     should.exist(res.body.recipientViewUrl)
   })
 
-  it(`failure - docusign template not exist`, async () => {
+  it('failure - docusign template not exist', async () => {
     try {
       await await postRequest(url, {
         templateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98D',
-        tabs: [ 'testKey||testValue' ]
+        tabs: ['testKey||testValue']
       }, token.user4)
       throw new Error('should not throw error here')
     } catch (err) {
@@ -145,42 +145,42 @@ module.exports = describe('Generate docusign view url endpoint', () => {
     }
   })
 
-  it(`failure - user doesn't exist`, async () => {
+  it('failure - user doesn\'t exist', async () => {
     try {
       await await postRequest(url, {
         templateId: config.DOCUSIGN.AFFIDAVIT_TEMPLATE_ID,
-        tabs: [ 'testKey||testValue' ]
+        tabs: ['testKey||testValue']
       }, token.invalidUser)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 404)
-      should.equal(_.get(err, 'response.body.message'), `User with given id: 11111151743 doesn't exist`)
+      should.equal(_.get(err, 'response.body.message'), 'User with given id: 11111151743 doesn\'t exist')
     }
   })
 
-  it(`failure - invalid parameter templateId`, async () => {
+  it('failure - invalid parameter templateId', async () => {
     try {
       await await postRequest(url, {
         templateId: 'not-uuid',
-        tabs: [ 'testKey||testValue' ]
+        tabs: ['testKey||testValue']
       }, token.user4)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"templateId" must be a valid GUID`)
+      should.equal(_.get(err, 'response.body.message'), '"templateId" must be a valid GUID')
     }
   })
 
-  it(`failure - invalid parameter tabs`, async () => {
+  it('failure - invalid parameter tabs', async () => {
     try {
       await await postRequest(url, {
         templateId: config.DOCUSIGN.AFFIDAVIT_TEMPLATE_ID,
-        tabs: [ 'invalid' ]
+        tabs: ['invalid']
       }, token.user4)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"0" with value "invalid" fails to match the required pattern: /^.+\\|\\|.+$/`)
+      should.equal(_.get(err, 'response.body.message'), '"0" with value "invalid" fails to match the required pattern: /^.+\\|\\|.+$/')
     }
   })
 
@@ -188,12 +188,12 @@ module.exports = describe('Generate docusign view url endpoint', () => {
     try {
       await await postRequest(url, {
         templateId: config.DOCUSIGN.ASSIGNMENT_V2_TEMPLATE_ID,
-        tabs: [ 'testKey||testValue' ]
+        tabs: ['testKey||testValue']
       }, token.m2mWrite)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -201,7 +201,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
     try {
       await await postRequest(url, {
         templateId: config.DOCUSIGN.ASSIGNMENT_V2_TEMPLATE_ID,
-        tabs: [ 'testKey||testValue' ]
+        tabs: ['testKey||testValue']
       }, 'invalid')
       throw new Error('should not throw error here')
     } catch (err) {
@@ -214,7 +214,7 @@ module.exports = describe('Generate docusign view url endpoint', () => {
     try {
       await await postRequest(url, {
         templateId: config.DOCUSIGN.ASSIGNMENT_V2_TEMPLATE_ID,
-        tabs: [ 'testKey||testValue' ]
+        tabs: ['testKey||testValue']
       })
       throw new Error('should not throw error here')
     } catch (err) {

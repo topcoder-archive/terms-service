@@ -94,7 +94,7 @@ const user = {
     scope: 'read:terms',
     gty: 'client-credentials',
     userId: null,
-    scopes: [ 'read:terms' ],
+    scopes: ['read:terms'],
     isMachine: true
   },
   m2mWrite: {
@@ -107,7 +107,7 @@ const user = {
     scope: 'write:terms',
     gty: 'client-credentials',
     userId: null,
-    scopes: [ 'write:terms' ],
+    scopes: ['write:terms'],
     isMachine: true
   }
 }

@@ -19,7 +19,7 @@ module.exports = describe('create terms for resource', () => {
   })
 
   it('create terms for resource success', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     const entity = await service.createTermsForResource(user.user1, data)
     const record = await TermsForResource.findOne({ where: { id: entity.id }, raw: true })
     should.equal(record.reference, 'challenge')
@@ -32,7 +32,7 @@ module.exports = describe('create terms for resource', () => {
   })
 
   it('create terms for resource success 2', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     data.tag = 'manager'
     const entity = await service.createTermsForResource(user.m2mWrite, data)
     const record = await TermsForResource.findOne({ where: { id: entity.id }, raw: true })
@@ -46,18 +46,18 @@ module.exports = describe('create terms for resource', () => {
   })
 
   it('failure - create terms for resource again, duplicate', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     try {
       await service.createTermsForResource(user.user1, data)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `Duplicate terms reference for tuple { reference: 'challenge', referenceId: '12346', tag: 'copilot' }`)
+      assertError(err, 'Duplicate terms reference for tuple { reference: \'challenge\', referenceId: \'12346\', tag: \'copilot\' }')
     }
   })
 
   it('failure - create terms for resource again, invalid terms id', async () => {
-    let data = _.cloneDeep(request.createTermsForResource.reqBody)
+    const data = _.cloneDeep(request.createTermsForResource.reqBody)
     data.referenceId = '10000'
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-1'])
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-2'])

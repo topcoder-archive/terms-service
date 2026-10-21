@@ -25,7 +25,7 @@ module.exports = describe('update terms of use', () => {
   const id3 = termsOfUseIdsMapping[30002]
 
   it('fully update terms of use using m2m token success', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     data.text = 'm2m-text'
     data.title = 'm2m-title'
     await service.fullyUpdateTermsOfUse(user.m2mWrite, id1, data)
@@ -42,7 +42,7 @@ module.exports = describe('update terms of use', () => {
   })
 
   it('fully update terms of use, adding docusign template success', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     await service.fullyUpdateTermsOfUse(user.user1, id1, data)
     const record = await TermsOfUse.findOne({ where: { id: id1, deletedAt: null }, raw: true })
     should.equal(record.text, 'update-text')
@@ -56,7 +56,7 @@ module.exports = describe('update terms of use', () => {
   })
 
   it('fully update terms of use, updating docusign template success', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     data.docusignTemplateId = 'new-template-id'
     await service.fullyUpdateTermsOfUse(user.user1, id1, data)
     const record = await TermsOfUse.findOne({ where: { id: id1, deletedAt: null }, raw: true })
@@ -93,12 +93,12 @@ module.exports = describe('update terms of use', () => {
       await service.fullyUpdateTermsOfUse(user.user1, id1, data)
       throw new Error('should not throw error here')
     } catch (err) {
-      assertValidationError(err, `"docusignTemplateId" is required`)
+      assertValidationError(err, '"docusignTemplateId" is required')
     }
   })
 
   it('failure - fully update terms of use not found', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await service.fullyUpdateTermsOfUse(user.user1, termsOfUseIdsMapping['not-exist-1'], data)
       throw new Error('should not throw error here')
@@ -117,7 +117,7 @@ module.exports = describe('update terms of use', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `Docusign template id is missing.`)
+      assertError(err, 'Docusign template id is missing.')
     }
   })
 

@@ -29,7 +29,7 @@ module.exports = describe('Get terms of use endpoint', () => {
     should.equal(res.body.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use by user who hasn't agreed`, async () => {
+  it('get terms of use by user who hasn\'t agreed', async () => {
     const res = await getRequest(`${url}/${termsOfUseIdsMapping[21303]}`, token.user2)
     should.equal(res.status, 200)
     should.equal(res.body.id, termsOfUseIdsMapping[21303])
@@ -40,7 +40,7 @@ module.exports = describe('Get terms of use endpoint', () => {
     should.equal(res.body.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use`, async () => {
+  it('get terms of use', async () => {
     const res = await getRequest(`${url}/${termsOfUseIdsMapping[21303]}`)
     should.equal(res.status, 200)
     should.equal(res.body.id, termsOfUseIdsMapping[21303])
@@ -51,7 +51,7 @@ module.exports = describe('Get terms of use endpoint', () => {
     should.equal(res.body.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use using m2m token`, async () => {
+  it('get terms of use using m2m token', async () => {
     const res = await getRequest(`${url}/${termsOfUseIdsMapping[21303]}`, token.m2mWrite)
     should.equal(res.status, 200)
     should.equal(res.body.id, termsOfUseIdsMapping[21303])
@@ -62,7 +62,7 @@ module.exports = describe('Get terms of use endpoint', () => {
     should.equal(res.body.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use is false with user`, async () => {
+  it('get terms of use is false with user', async () => {
     const res = await getRequest(`${url}/${termsOfUseIdsMapping[21303]}`, token.user1)
     should.equal(res.status, 200)
     should.equal(res.body.id, termsOfUseIdsMapping[21303])
@@ -73,7 +73,7 @@ module.exports = describe('Get terms of use endpoint', () => {
     should.equal(res.body.agreeabilityType, 'Electronically-agreeable')
   })
 
-  it(`get terms of use with docusignTemplateId`, async () => {
+  it('get terms of use with docusignTemplateId', async () => {
     const res = await getRequest(`${url}/${termsOfUseIdsMapping[21304]}`)
     should.equal(res.status, 200)
     should.equal(res.body.id, termsOfUseIdsMapping[21304])
@@ -105,13 +105,13 @@ module.exports = describe('Get terms of use endpoint', () => {
     }
   })
 
-  it(`failure - invalid parameter termsOfUseId`, async () => {
+  it('failure - invalid parameter termsOfUseId', async () => {
     try {
       await getRequest(`${url}/334`)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"termsOfUseId" must be a valid GUID`)
+      should.equal(_.get(err, 'response.body.message'), '"termsOfUseId" must be a valid GUID')
     }
   })
 

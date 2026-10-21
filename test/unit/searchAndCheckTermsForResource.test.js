@@ -40,7 +40,7 @@ module.exports = describe('search and check terms for resource', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `No terms for resouce exist with Reference(challenge) and ReferenceId(12345) for the following tags: [ 'invalid1', 'invalid2' ]`)
+      assertError(err, 'No terms for resouce exist with Reference(challenge) and ReferenceId(12345) for the following tags: [ \'invalid1\', \'invalid2\' ]')
     }
   })
 })

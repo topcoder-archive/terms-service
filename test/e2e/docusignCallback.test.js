@@ -204,7 +204,7 @@ module.exports = describe('Docusign Callback endpoint', () => {
     })
     should.equal(res.status, 200)
     should.equal(res.body.message, 'success')
-    assertInfoMessage(`Status is not completed.`)
+    assertInfoMessage('Status is not completed.')
   })
 
   it('Ignore - envelopeId is empty', async () => {
@@ -216,7 +216,7 @@ module.exports = describe('Docusign Callback endpoint', () => {
     })
     should.equal(res.status, 200)
     should.equal(res.body.message, 'success')
-    assertErrorMessage(`envelopeId is null or empty`)
+    assertErrorMessage('envelopeId is null or empty')
   })
 
   it('Ignore - no envelope found', async () => {
@@ -228,7 +228,7 @@ module.exports = describe('Docusign Callback endpoint', () => {
     })
     should.equal(res.status, 200)
     should.equal(res.body.message, 'success')
-    assertErrorMessage(`No enevelope with id: not-found was found.`)
+    assertErrorMessage('No enevelope with id: not-found was found.')
   })
 
   it('Ignore - no envelope found', async () => {
@@ -240,7 +240,7 @@ module.exports = describe('Docusign Callback endpoint', () => {
     })
     should.equal(res.status, 200)
     should.equal(res.body.message, 'success')
-    assertWarnMessage(`No Template was found for template id: 12345678`)
+    assertWarnMessage('No Template was found for template id: 12345678')
   })
 
   it('failure - Invalid parameter tabs', async () => {
@@ -254,7 +254,7 @@ module.exports = describe('Docusign Callback endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"tabValue" is required`)
+      should.equal(_.get(err, 'response.body.message'), '"tabValue" is required')
     }
   })
 
@@ -268,7 +268,7 @@ module.exports = describe('Docusign Callback endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"envelopeStatus" is required`)
+      should.equal(_.get(err, 'response.body.message'), '"envelopeStatus" is required')
     }
   })
 })

@@ -56,7 +56,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
@@ -66,7 +66,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
@@ -76,7 +76,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -86,7 +86,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -96,7 +96,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"termsForResourceId" must be a valid GUID`)
+      should.equal(_.get(err, 'response.body.message'), '"termsForResourceId" must be a valid GUID')
     }
   })
 
@@ -130,7 +130,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"termsForResourceId" must be a valid GUID`)
+      should.equal(_.get(err, 'response.body.message'), '"termsForResourceId" must be a valid GUID')
     }
   })
 
@@ -150,7 +150,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
@@ -160,7 +160,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
@@ -170,7 +170,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
@@ -180,7 +180,7 @@ module.exports = describe('get and delete terms for resource endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 })

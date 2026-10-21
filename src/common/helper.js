@@ -10,10 +10,17 @@ const request = require('superagent')
 const errors = require('./errors')
 const logger = require('./logger')
 const m2mAuth = require('tc-core-library-js').auth.m2m
-const m2m = m2mAuth(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_PROXY_SERVER_URL']))
+const m2m = m2mAuth(config)
 const busApi = require('tc-bus-api-wrapper')
-const busApiClient = busApi(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_CLIENT_ID',
-  'AUTH0_CLIENT_SECRET', 'BUSAPI_URL', 'KAFKA_ERROR_TOPIC', 'AUTH0_PROXY_SERVER_URL']))
+// Legacy wrapper names carry only Keycloak settings; its nested core is pinned.
+const busApiClient = busApi({
+  AUTH0_URL: config.KEYCLOAK_TOKEN_URL,
+  AUTH0_AUDIENCE: config.KEYCLOAK_AUDIENCE,
+  AUTH0_CLIENT_ID: config.KEYCLOAK_CLIENT_ID,
+  AUTH0_CLIENT_SECRET: config.KEYCLOAK_CLIENT_SECRET,
+  BUSAPI_URL: config.BUSAPI_URL,
+  KAFKA_ERROR_TOPIC: config.KAFKA_ERROR_TOPIC
+})
 const docusign = require('docusign-esign')
 
 /**
@@ -49,11 +56,12 @@ function autoWrapExpress (obj) {
 }
 
 /**
- * Get M2M token
- * @return {String} m2m token
+ * Obtain a verified Keycloak token using configured credentials (no arguments).
+ * @returns {Promise<string>} Cached/new RS256 service token from shared core.
+ * @throws {Error} Sanitized shared-core issuance/validation errors.
  */
 async function getM2Mtoken () {
-  return m2m.getMachineToken(config.AUTH0_CLIENT_ID, config.AUTH0_CLIENT_SECRET)
+  return m2m.getMachineToken()
 }
 
 /**

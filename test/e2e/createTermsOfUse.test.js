@@ -75,7 +75,7 @@ module.exports = describe('create terms of use endpoint', () => {
   })
 
   it('create terms of use with docusign template success', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     data.id = termsOfUseIdsMapping[40003]
     data.legacyId = 40003
     const res = await postRequest(url, data, token.user1)
@@ -98,7 +98,7 @@ module.exports = describe('create terms of use endpoint', () => {
   })
 
   it('failure - no terms of use agreeability type found', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     data.agreeabilityTypeId = agreeabilityTypeIdsMapping['not-exist']
     try {
       await postRequest(url, data, token.user1)
@@ -118,12 +118,12 @@ module.exports = describe('create terms of use endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"docusignTemplateId" is required`)
+      should.equal(_.get(err, 'response.body.message'), '"docusignTemplateId" is required')
     }
   })
 
   it('failure - no token', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     try {
       await postRequest(url, data)
       throw new Error('should not throw error here')
@@ -134,7 +134,7 @@ module.exports = describe('create terms of use endpoint', () => {
   })
 
   it('failure - invalid token', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     try {
       await postRequest(url, data, 'invalid')
       throw new Error('should not throw error here')
@@ -145,24 +145,24 @@ module.exports = describe('create terms of use endpoint', () => {
   })
 
   it('failure - forbidden', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     try {
       await postRequest(url, data, token.user2)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - forbidden m2m token', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     try {
       await postRequest(url, data, token.m2mRead)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 

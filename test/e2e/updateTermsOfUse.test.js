@@ -27,7 +27,7 @@ module.exports = describe('update terms of use endpoint', () => {
   const id3 = termsOfUseIdsMapping[30002]
 
   it('fully update terms of use using m2m token success', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     data.text = 'm2m-text'
     data.title = 'm2m-title'
     const res = await putRequest(`${url}/${id1}`, data, token.m2mWrite)
@@ -51,7 +51,7 @@ module.exports = describe('update terms of use endpoint', () => {
   })
 
   it('fully update terms of use, adding docusign template success', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     const res = await putRequest(`${url}/${id1}`, data, token.user1)
     const record = await TermsOfUse.findOne({ where: { id: id1, deletedAt: null }, raw: true })
     should.equal(record.text, 'update-text')
@@ -72,7 +72,7 @@ module.exports = describe('update terms of use endpoint', () => {
   })
 
   it('fully update terms of use, updating docusign template success', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     data.docusignTemplateId = 'new-template-id'
     const res = await putRequest(`${url}/${id1}`, data, token.user1)
     const record = await TermsOfUse.findOne({ where: { id: id1, deletedAt: null }, raw: true })
@@ -124,12 +124,12 @@ module.exports = describe('update terms of use endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"docusignTemplateId" is required`)
+      should.equal(_.get(err, 'response.body.message'), '"docusignTemplateId" is required')
     }
   })
 
   it('failure - fully update terms of use not found', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await putRequest(`${url}/${termsOfUseIdsMapping['not-exist-1']}`, data, token.user1)
       throw new Error('should not throw error here')
@@ -149,7 +149,7 @@ module.exports = describe('update terms of use endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `Docusign template id is missing.`)
+      should.equal(_.get(err, 'response.body.message'), 'Docusign template id is missing.')
     }
   })
 
@@ -228,90 +228,90 @@ module.exports = describe('update terms of use endpoint', () => {
   })
 
   it('failure - fully update terms of use no token', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
   it('failure - fully update terms of use invalid token', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data, 'invalid')
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
   it('failure - fully update terms of use forbidden', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data, token.user2)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - fully update terms of use using forbidden m2m token', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await putRequest(`${url}/${id1}`, data, token.m2mRead)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - partially update terms of use no token', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `No token provided.`)
+      should.equal(_.get(err, 'response.body.message'), 'No token provided.')
     }
   })
 
   it('failure - partially update terms of use invalid token', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data, 'invalid')
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 401)
-      should.equal(_.get(err, 'response.body.message'), `Invalid Token.`)
+      should.equal(_.get(err, 'response.body.message'), 'Invalid Token.')
     }
   })
 
   it('failure - partially update terms of use forbidden', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data, token.user2)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 
   it('failure - partially update terms of use using forbidden m2m token', async () => {
-    let data = _.cloneDeep(request.updateTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.updateTermsOfUse.reqBody)
     try {
       await patchRequest(`${url}/${id1}`, data, token.m2mRead)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 

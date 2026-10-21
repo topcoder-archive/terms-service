@@ -23,7 +23,7 @@ module.exports = describe('update terms for resource', () => {
   const notFoundId = 'b41d1974-5823-473e-bacb-7eed17500ad1'
 
   it('fully update terms for resource success', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     await service.fullyUpdateTermsForResource(user.user1, id1, data)
     const record = await TermsForResource.findOne({ where: { id: id1 }, raw: true })
     should.equal(record.reference, 'new-reference')
@@ -39,7 +39,7 @@ module.exports = describe('update terms for resource', () => {
   })
 
   it('fully update terms for resource success using m2m', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.referenceId = '22222'
     data.tag = 'manager'
     await service.fullyUpdateTermsForResource(user.m2mWrite, id1, data)
@@ -57,7 +57,7 @@ module.exports = describe('update terms for resource', () => {
   })
 
   it('fully update terms for resource, change terms id success', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.termsOfUseIds = [termsOfUseIdsMapping[21305]]
     await service.fullyUpdateTermsForResource(user.user1, id1, data)
     const record = await TermsForResource.findOne({ where: { id: id1 }, raw: true })
@@ -73,7 +73,7 @@ module.exports = describe('update terms for resource', () => {
   })
 
   it('failure - fully update terms for resource not found', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await service.fullyUpdateTermsForResource(user.user1, notFoundId, data)
       throw new Error('should not throw error here')
@@ -84,7 +84,7 @@ module.exports = describe('update terms for resource', () => {
   })
 
   it('failure - fully update terms for resource duplicate', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.reference = 'challenge'
     data.referenceId = '12346'
     data.tag = 'copilot'
@@ -93,12 +93,12 @@ module.exports = describe('update terms for resource', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `Duplicate terms reference for tuple { reference: 'challenge', referenceId: '12346', tag: 'copilot' }`)
+      assertError(err, 'Duplicate terms reference for tuple { reference: \'challenge\', referenceId: \'12346\', tag: \'copilot\' }')
     }
   })
 
   it('failure - fully update terms for resource invalid terms id', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-1'])
     data.termsOfUseIds.push(termsOfUseIdsMapping['not-exist-2'])
     try {
@@ -153,7 +153,7 @@ module.exports = describe('update terms for resource', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `Duplicate terms reference for tuple { reference: 'challenge', referenceId: '12346', tag: 'copilot' }`)
+      assertError(err, 'Duplicate terms reference for tuple { reference: \'challenge\', referenceId: \'12346\', tag: \'copilot\' }')
     }
   })
 
@@ -170,7 +170,7 @@ module.exports = describe('update terms for resource', () => {
   })
 
   it('failure - partially update terms for resource not found', async () => {
-    let data = _.cloneDeep(request.updateTermsForResource.reqBody)
+    const data = _.cloneDeep(request.updateTermsForResource.reqBody)
     try {
       await service.partiallyUpdateTermsForResource(user.user1, notFoundId, data)
       throw new Error('should not throw error here')

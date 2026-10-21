@@ -42,23 +42,23 @@ module.exports = describe('Agree terms of use endpoint', () => {
     }
   })
 
-  it(`failure - user hasn't agreed dependencies terms`, async () => {
+  it('failure - user hasn\'t agreed dependencies terms', async () => {
     try {
       await postRequest(`${url}/${termsOfUseIdsMapping[21303]}/agree`, undefined, token.user3)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `You can't agree to this terms of use before you have agreed to all the dependencies terms of use.`)
+      should.equal(_.get(err, 'response.body.message'), 'You can\'t agree to this terms of use before you have agreed to all the dependencies terms of use.')
     }
   })
 
-  it(`failure - user was banned`, async () => {
+  it('failure - user was banned', async () => {
     try {
       await postRequest(`${url}/${termsOfUseIdsMapping[21303]}/agree`, undefined, token.user4)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `Sorry, you can not agree to this terms of use.`)
+      should.equal(_.get(err, 'response.body.message'), 'Sorry, you can not agree to this terms of use.')
     }
   })
 
@@ -79,17 +79,17 @@ module.exports = describe('Agree terms of use endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `The term is not electronically agreeable.`)
+      should.equal(_.get(err, 'response.body.message'), 'The term is not electronically agreeable.')
     }
   })
 
-  it(`failure - invalid parameter termsOfUseId`, async () => {
+  it('failure - invalid parameter termsOfUseId', async () => {
     try {
       await postRequest(`${url}/123/agree`, undefined, token.user1)
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 400)
-      should.equal(_.get(err, 'response.body.message'), `"termsOfUseId" must be a valid GUID`)
+      should.equal(_.get(err, 'response.body.message'), '"termsOfUseId" must be a valid GUID')
     }
   })
 
@@ -99,7 +99,7 @@ module.exports = describe('Agree terms of use endpoint', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.status, 403)
-      should.equal(_.get(err, 'response.body.message'), `You are not allowed to perform this action!`)
+      should.equal(_.get(err, 'response.body.message'), 'You are not allowed to perform this action!')
     }
   })
 

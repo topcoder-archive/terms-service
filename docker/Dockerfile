@@ -1,6 +1,6 @@
 
-# Use the base image with Node.js 12.0.0
-FROM node:21.6.0
+# Use the base image with Node.js 22.23.2
+FROM node:22.23.2
 
 # Copy the current directory into the Docker image
 RUN apt-get install -y curl
@@ -9,5 +9,5 @@ COPY . /terms-service
 WORKDIR /terms-service
 
 # Install the dependencies from package.json
-RUN npm install
+RUN npm ci
 CMD [ "node", "app.js" ]

@@ -34,27 +34,27 @@ module.exports = describe('agree terms of use', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `You have agreed to this terms of use before.`)
+      assertError(err, 'You have agreed to this terms of use before.')
     }
   })
 
-  it(`failure - user hasn't agreed dependencies terms`, async () => {
+  it('failure - user hasn\'t agreed dependencies terms', async () => {
     try {
       await service.agreeTermsOfUse(user.user3, termsOfUseIdsMapping[21303])
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `You can't agree to this terms of use before you have agreed to all the dependencies terms of use.`)
+      assertError(err, 'You can\'t agree to this terms of use before you have agreed to all the dependencies terms of use.')
     }
   })
 
-  it(`failure - user was banned`, async () => {
+  it('failure - user was banned', async () => {
     try {
       await service.agreeTermsOfUse(user.user4, termsOfUseIdsMapping[21303])
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'ForbiddenError')
-      assertError(err, `Sorry, you can not agree to this terms of use.`)
+      assertError(err, 'Sorry, you can not agree to this terms of use.')
     }
   })
 
@@ -74,16 +74,16 @@ module.exports = describe('agree terms of use', () => {
       throw new Error('should not throw error here')
     } catch (err) {
       should.equal(err.name, 'BadRequestError')
-      assertError(err, `The term is not electronically agreeable.`)
+      assertError(err, 'The term is not electronically agreeable.')
     }
   })
 
-  it(`failure - invalid parameter termsOfUseId`, async () => {
+  it('failure - invalid parameter termsOfUseId', async () => {
     try {
       await service.agreeTermsOfUse(user.user1, 233)
       throw new Error('should not throw error here')
     } catch (err) {
-      assertValidationError(err, `"termsOfUseId" must be a string`)
+      assertValidationError(err, '"termsOfUseId" must be a string')
     }
   })
 })

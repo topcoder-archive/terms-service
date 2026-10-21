@@ -9,8 +9,10 @@
     "lint:fix": "standard --fix",
     "init-db": "node src/init-db.js",
     "test-data": "node src/test-data.js",
-    "test": "nyc --reporter=html --reporter=text mocha test/unit/test.js --timeout 30000 --exit",
-    "e2e": "nyc --reporter=html --reporter=text mocha test/e2e/test.js --timeout 30000 --exit"
+    "test": "nyc --reporter=html --reporter=text mocha --require test/common/keycloak-env.cjs test/unit/test.js --timeout 30000 --exit",
+    "e2e": "nyc --reporter=html --reporter=text mocha --require test/common/keycloak-env.cjs test/e2e/test.js --timeout 30000 --exit",
+    "build": "node scripts/build.cjs",
+    "test:keycloak": "node --test test/keycloak.test.cjs"
   },
   "author": "TCSCODER",
   "license": "none",
@@ -18,7 +20,8 @@
     "mocha": "^10.4.0",
     "nyc": "^15.1.0",
     "should": "^13.2.3",
-    "standard": "^17.1.0"
+    "standard": "^17.1.0",
+    "nock": "^14.0.17"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
@@ -39,7 +42,7 @@
     "superagent": "^8.1.2",
     "swagger-ui-express": "^5.0.0",
     "tc-bus-api-wrapper": "topcoder-platform/tc-bus-api-wrapper.git",
-    "tc-core-library-js": "github:topcoder-platform/tc-core-library-js#v2.6.4",
+    "tc-core-library-js": "https://codeload.github.com/topcoder-platform/tc-core-library-js/tar.gz/c262f4aca971904f308085bdeaaed35cdf3cfa7d",
     "topcoder-healthcheck-dropin": "^1.0.3",
     "uuid": "^9.0.1",
     "winston": "^3.13.0",
@@ -52,7 +55,8 @@
       "mocha"
     ],
     "ignore": [
-      "/docusign_callback"
+      "/docusign_callback",
+      "/data_migration"
     ]
   },
   "nyc": {
@@ -64,5 +68,11 @@
       "test/unit/*.js",
       "test/e2e/*.js"
     ]
+  },
+  "overrides": {
+    "tc-core-library-js": "$tc-core-library-js"
+  },
+  "engines": {
+    "node": ">=22.23.2 <23"
   }
 }

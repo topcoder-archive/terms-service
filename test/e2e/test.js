@@ -16,10 +16,10 @@ const { insertData } = require('../../src/test-data')
 
 describe('Topcoder - Topcoder Terms API E2E Test', () => {
   let app
-  let infoLogs = []
-  let errorLogs = []
-  let debugLogs = []
-  let warnLogs = []
+  const infoLogs = []
+  const errorLogs = []
+  const debugLogs = []
+  const warnLogs = []
   const info = logger.info
   const error = logger.error
   const debug = logger.debug

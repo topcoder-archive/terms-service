@@ -5,10 +5,9 @@
 const _ = require('lodash')
 const config = require('config')
 const Joi = require('joi')
-//const uuid = require('uuid/v4')
-const { v4: uuid } = require('uuid');
+// const uuid = require('uuid/v4')
+const { v4: uuid } = require('uuid')
 const helper = require('../common/helper')
-const logger = require('../common/logger')
 const errors = require('../common/errors')
 const models = require('../models')
 const termsOfUseService = require('./TermsOfUseService')
@@ -180,8 +179,7 @@ async function checkTermsForResourceOfUser (userId, criteria) {
   const result = []
   const invalidTags = []
   for (const tag of criteria.tags) {
-    const termsForResource = await TermsForResource.findOne({
-      where: _.assign({ tag }, _.pick(criteria, 'reference', 'referenceId')) })
+    const termsForResource = await TermsForResource.findOne({ where: _.assign({ tag }, _.pick(criteria, 'reference', 'referenceId')) })
     if (_.isNull(termsForResource)) {
       invalidTags.push(tag)
     } else {

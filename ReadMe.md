@@ -16,12 +16,6 @@ The following parameters can be set in config files or in env variables:
 - AUTH_SECRET: The authorization secret used during token verification.
 - VALID_ISSUERS: The valid issuer of tokens, a json array contains valid issuer.
 - POSTGRES_URL: Postgres database url.
-- AUTH0_URL: Auth0 URL, used to get TC M2M token
-- AUTH0_AUDIENCE: Auth0 audience, used to get TC M2M token
-- TOKEN_CACHE_TIME: Auth0 token cache time, used to get TC M2M token
-- AUTH0_CLIENT_ID: Auth0 client id, used to get TC M2M token
-- AUTH0_CLIENT_SECRET: Auth0 client secret, used to get TC M2M token
-- AUTH0_PROXY_SERVER_URL: Proxy Auth0 URL, used to get TC M2M token
 - USER_API_URL: User api url, default is 'https://api.topcoder-dev.com/v3/users'
 - BUSAPI_URL: the Topcoder bus api base url.
 - KAFKA_ERROR_TOPIC: the error topic used when posting Kafka event.
@@ -73,3 +67,41 @@ run `npm run test` under docusign_callback folder
 
 ## Verification
 Refer to the verification document `Verification.md`
+
+## Keycloak migration branch
+
+`keycloak_m2M` pins shared core 4.0.0-keycloak.0 at
+`c262f4aca971904f308085bdeaaed35cdf3cfa7d`, including the Bus wrapper dependency.
+Run `nvm use` (Node 22.23.2). Set `M2M_PROVIDER=keycloak`,
+`KEYCLOAK_ISSUER`, `KEYCLOAK_AUDIENCE`, `KEYCLOAK_TOKEN_URL`,
+`KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET`, and optional `KEYCLOAK_SCOPE`.
+Use the managed HTTPS endpoint. Issued RS256 tokens must match the configured
+issuer/audience/client/scopes before shared core caches or forwards them.
+The wrapper's legacy option names receive only Keycloak settings; Auth0 issuance
+and proxy fallback are removed.
+
+Inbound services require exact `read:terms` or `write:terms` route grants.
+Individual terms remain publicly readable without credentials, but supplied
+service tokens now require `read:terms`; optional authentication no longer
+bypasses machine scope checks. Agreement and DocuSign signing routes remain
+member-only. Normalized services have no member ID/handle and audit records use
+their verified subject. Member sessions retain roles/ownership rules: configure
+`AUTH_SECRET`, `VALID_ISSUERS`, and `AUTH_USER_AUDIENCES` (JSON array), or explicit
+`ALLOW_LEGACY_USER_AUDIENCE=true` for legacy member audience compatibility.
+DocuSign's own JWT authentication is independent and unchanged.
+
+Outbound clients need Member read and `write:bus_api` grants. Configure each
+workload before future deployment. CI excludes this branch; no DEV service is
+deployed. Validate with `npm run lint`, `npm run build` (JavaScript syntax), and
+`npm run test:keycloak`. Existing unit/E2E suites additionally require an isolated
+PostgreSQL database and fixture integrations; auth tests use local signed tokens.
+
+Migration validation: lint/build, five auth/real-HTTP tests and live DEV direct
+and nested Bus-provider checks pass. The PostgreSQL-backed legacy unit suite has
+28 passing and 64 failing tests; unchanged commit `062de8cf` with independent
+`npm ci` dependencies reproduces the same failures. These involve unconfigured
+Bus/DocuSign integrations and existing fixture/log assertions. The legacy E2E
+suite uses historical embedded JWTs; the new signed-token HTTP suite covers the
+current authentication contract without external writes. Root lint now excludes
+the separately packaged `data_migration` tool; existing runtime/test formatting
+and an unused import were cleaned to make the required root lint pass.

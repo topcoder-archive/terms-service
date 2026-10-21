@@ -55,7 +55,7 @@ module.exports = describe('create terms of use', () => {
   })
 
   it('create terms of use with docusign template success', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     data.id = termsOfUseIdsMapping[40003]
     data.legacyId = 40003
     const entity = await service.createTermsOfUse(user.user1, data)
@@ -71,7 +71,7 @@ module.exports = describe('create terms of use', () => {
   })
 
   it('failure - no terms of use agreeability type found', async () => {
-    let data = _.cloneDeep(request.createTermsOfUse.reqBody)
+    const data = _.cloneDeep(request.createTermsOfUse.reqBody)
     data.agreeabilityTypeId = agreeabilityTypeIdsMapping['not-exist']
     try {
       await service.createTermsOfUse(user.user1, data)
@@ -91,7 +91,7 @@ module.exports = describe('create terms of use', () => {
       await service.createTermsOfUse(user.user1, data)
       throw new Error('should not throw error here')
     } catch (err) {
-      assertValidationError(err, `"docusignTemplateId" is required`)
+      assertValidationError(err, '"docusignTemplateId" is required')
     }
   })
 })
