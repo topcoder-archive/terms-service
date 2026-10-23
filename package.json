@@ -42,7 +42,7 @@
     "superagent": "^8.1.2",
     "swagger-ui-express": "^5.0.0",
     "tc-bus-api-wrapper": "topcoder-platform/tc-bus-api-wrapper.git",
-    "tc-core-library-js": "https://codeload.github.com/topcoder-platform/tc-core-library-js/tar.gz/e844764e1c2cadcc01fd5e05029590319802af09",
+    "tc-core-library-js": "https://codeload.github.com/topcoder-platform/tc-core-library-js/tar.gz/112d54a3ed66423e7305e94e174937823e76124e",
     "topcoder-healthcheck-dropin": "^1.0.3",
     "uuid": "^9.0.1",
     "winston": "^3.13.0",
