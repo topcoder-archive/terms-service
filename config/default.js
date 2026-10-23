@@ -12,7 +12,18 @@ module.exports = {
   POSTGRES_URL: process.env.POSTGRES_URL || 'postgres://postgres:@localhost:5432/postgres',
   DB_SCHEMA_NAME: process.env.DB_SCHEMA_NAME || 'termsdb',
 
-  M2M_PROVIDER: process.env.M2M_PROVIDER,
+  // M2M provider switch, read by tc-core-library-js (auth.useKeycloak). "true" gets
+  // tokens from Keycloak (KEYCLOAK_*); unset or "false" gets them from Auth0 (AUTH0_*),
+  // as before the Keycloak migration. Applies to Member lookups and Bus publishing.
+  USE_KEYCLOAK: process.env.USE_KEYCLOAK,
+
+  AUTH0_URL: process.env.AUTH0_URL || 'https://topcoder-dev.auth0.com/oauth/token',
+  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE || 'https://m2m.topcoder-dev.com/',
+  TOKEN_CACHE_TIME: process.env.TOKEN_CACHE_TIME || 120,
+  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+  AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+  AUTH0_PROXY_SERVER_URL: process.env.AUTH0_PROXY_SERVER_URL || 'https://topcoder-dev.auth0.com/oauth/token',
+
   KEYCLOAK_ISSUER: process.env.KEYCLOAK_ISSUER,
   KEYCLOAK_AUDIENCE: process.env.KEYCLOAK_AUDIENCE,
   KEYCLOAK_TOKEN_URL: process.env.KEYCLOAK_TOKEN_URL,

@@ -9,15 +9,18 @@ const querystring = require('querystring')
 const request = require('superagent')
 const errors = require('./errors')
 const logger = require('./logger')
-const m2mAuth = require('tc-core-library-js').auth.m2m
+const { auth } = require('tc-core-library-js')
+const m2mAuth = auth.m2m
+// Keycloak provider when config.USE_KEYCLOAK is true, otherwise the Auth0 provider using
+// AUTH0_URL, AUTH0_AUDIENCE and AUTH0_PROXY_SERVER_URL. Each ignores the other's settings.
 const m2m = m2mAuth(config)
 const busApi = require('tc-bus-api-wrapper')
-// Legacy wrapper names carry only Keycloak settings; its nested core is pinned.
+// The wrapper's AUTH0_* option names carry the active provider's settings: KEYCLOAK_*
+// when USE_KEYCLOAK is true, otherwise the AUTH0_* values and defaults from config.
+// Its nested core is the same pinned copy (package.json overrides).
 const busApiClient = busApi({
-  AUTH0_URL: config.KEYCLOAK_TOKEN_URL,
-  AUTH0_AUDIENCE: config.KEYCLOAK_AUDIENCE,
-  AUTH0_CLIENT_ID: config.KEYCLOAK_CLIENT_ID,
-  AUTH0_CLIENT_SECRET: config.KEYCLOAK_CLIENT_SECRET,
+  ...auth.wrapperSettings(config),
+  TOKEN_CACHE_TIME: config.TOKEN_CACHE_TIME,
   BUSAPI_URL: config.BUSAPI_URL,
   KAFKA_ERROR_TOPIC: config.KAFKA_ERROR_TOPIC
 })
@@ -56,8 +59,11 @@ function autoWrapExpress (obj) {
 }
 
 /**
- * Obtain a verified Keycloak token using configured credentials (no arguments).
- * @returns {Promise<string>} Cached/new RS256 service token from shared core.
+ * Obtain an M2M token from the provider USE_KEYCLOAK selects (no arguments).
+ * With USE_KEYCLOAK=true it is a verified RS256 Keycloak token for KEYCLOAK_CLIENT_ID/
+ * KEYCLOAK_CLIENT_SECRET (optional KEYCLOAK_SCOPE); otherwise an Auth0 token for
+ * AUTH0_CLIENT_ID/AUTH0_CLIENT_SECRET. Used for Member API lookups.
+ * @returns {Promise<string>} Cached/new service token from shared core.
  * @throws {Error} Sanitized shared-core issuance/validation errors.
  */
 async function getM2Mtoken () {

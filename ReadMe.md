@@ -16,6 +16,15 @@ The following parameters can be set in config files or in env variables:
 - AUTH_SECRET: The authorization secret used during token verification.
 - VALID_ISSUERS: The valid issuer of tokens, a json array contains valid issuer.
 - POSTGRES_URL: Postgres database url.
+- USE_KEYCLOAK: `true` gets M2M tokens from Keycloak (KEYCLOAK_* below); unset or `false` gets them from Auth0 (AUTH0_* below). See "Provider switch" below.
+- AUTH0_URL: Auth0 URL, used to get TC M2M token when USE_KEYCLOAK is not true, default is 'https://topcoder-dev.auth0.com/oauth/token'
+- AUTH0_AUDIENCE: Auth0 audience, used to get TC M2M token when USE_KEYCLOAK is not true, default is 'https://m2m.topcoder-dev.com/'
+- TOKEN_CACHE_TIME: Auth0 token cache time, passed to the Bus wrapper, default is 120
+- AUTH0_CLIENT_ID: Auth0 client id, used to get TC M2M token when USE_KEYCLOAK is not true
+- AUTH0_CLIENT_SECRET: Auth0 client secret, used to get TC M2M token when USE_KEYCLOAK is not true
+- AUTH0_PROXY_SERVER_URL: Proxy Auth0 URL, used to get TC M2M token when USE_KEYCLOAK is not true, default is 'https://topcoder-dev.auth0.com/oauth/token'
+- KEYCLOAK_ISSUER, KEYCLOAK_AUDIENCE, KEYCLOAK_TOKEN_URL: Keycloak realm issuer, audience and managed token endpoint, required when USE_KEYCLOAK=true
+- KEYCLOAK_CLIENT_ID, KEYCLOAK_CLIENT_SECRET, KEYCLOAK_SCOPE: this service's Keycloak client credentials and optional scope, used when USE_KEYCLOAK=true
 - USER_API_URL: User api url, default is 'https://api.topcoder-dev.com/v3/users'
 - BUSAPI_URL: the Topcoder bus api base url.
 - KAFKA_ERROR_TOPIC: the error topic used when posting Kafka event.
@@ -70,15 +79,42 @@ Refer to the verification document `Verification.md`
 
 ## Keycloak migration branch
 
-`keycloak_m2M` pins shared core 4.0.0-keycloak.0 at
-`c262f4aca971904f308085bdeaaed35cdf3cfa7d`, including the Bus wrapper dependency.
-Run `nvm use` (Node 22.23.2). Set `M2M_PROVIDER=keycloak`,
-`KEYCLOAK_ISSUER`, `KEYCLOAK_AUDIENCE`, `KEYCLOAK_TOKEN_URL`,
-`KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET`, and optional `KEYCLOAK_SCOPE`.
-Use the managed HTTPS endpoint. Issued RS256 tokens must match the configured
-issuer/audience/client/scopes before shared core caches or forwards them.
-The wrapper's legacy option names receive only Keycloak settings; Auth0 issuance
-and proxy fallback are removed.
+`keycloak_m2M` pins shared core 4.0.0-keycloak.1 at
+`e844764e1c2cadcc01fd5e05029590319802af09`, including the Bus wrapper dependency
+(through the `overrides` entry in `package.json`). Run `nvm use` (Node 22.23.2).
+
+### Provider switch: `USE_KEYCLOAK`
+
+`USE_KEYCLOAK=true` makes the service get its M2M tokens (Member lookups and Bus
+publishing) from Keycloak, using `KEYCLOAK_TOKEN_URL`, `KEYCLOAK_AUDIENCE`,
+`KEYCLOAK_CLIENT_ID` and `KEYCLOAK_CLIENT_SECRET` (optional `KEYCLOAK_SCOPE`
+narrows the client's defaults). `KEYCLOAK_ISSUER` is also required; missing
+settings fail at startup. Use the managed HTTPS endpoint. Issued RS256 tokens
+must match the configured issuer/audience/client/scopes before shared core
+caches or forwards them.
+
+Unset or `false` restores the Auth0 behaviour from before the migration, for both
+paths: `AUTH0_URL`, `AUTH0_AUDIENCE`, `AUTH0_PROXY_SERVER_URL`, `AUTH0_CLIENT_ID`
+and `AUTH0_CLIENT_SECRET`, with the defaults listed under Configuration, plus
+`TOKEN_CACHE_TIME` for the Bus wrapper. No `KEYCLOAK_*` setting is required.
+
+`tc-core-library-js` reads the flag (`auth.useKeycloak`) from config, and
+`src/common/helper.js` fills the Bus wrapper's `AUTH0_*` options from
+`auth.wrapperSettings`, so the service, the wrapper and the core always agree.
+Any value other than `true`/`false` fails at startup. In DEV the flag is
+`/config/common/global-appvar/USE_KEYCLOAK`; the CircleCI deploy loads
+`/config/terms-service/appvar` and `/config/common/global-appvar`.
+
+Incoming machine tokens: with `true`, Keycloak tokens are accepted, plus Auth0
+tokens while `LEGACY_M2M_ISSUERS`/`LEGACY_M2M_AUDIENCE` are set. With `false`,
+Auth0 tokens are accepted through `LEGACY_M2M_*`, plus Keycloak tokens while
+`KEYCLOAK_ISSUER` and `KEYCLOAK_AUDIENCE` are set, so callers that have not
+switched yet keep working. The route scope rules below apply in both modes.
+
+**Rollback:** set `USE_KEYCLOAK=false` and force a new deployment so tasks re-read
+SSM. No code or dependency change is needed. Keep the Auth0 settings above in SSM
+until Keycloak has been accepted. The core never retries a failed Keycloak request
+against Auth0; rolling back is always this explicit change.
 
 Inbound services require exact `read:terms` or `write:terms` route grants.
 Individual terms remain publicly readable without credentials, but supplied
@@ -93,7 +129,8 @@ DocuSign's own JWT authentication is independent and unchanged.
 Outbound clients need Member read and `write:bus_api` grants. Configure each
 workload before future deployment. CI excludes this branch; no DEV service is
 deployed. Validate with `npm run lint`, `npm run build` (JavaScript syntax), and
-`npm run test:keycloak`. Existing unit/E2E suites additionally require an isolated
+`npm run test:keycloak` (which also covers both `USE_KEYCLOAK` modes for the
+outbound paths). Existing unit/E2E suites additionally require an isolated
 PostgreSQL database and fixture integrations; auth tests use local signed tokens.
 
 Migration validation: lint/build, five auth/real-HTTP tests and live DEV direct

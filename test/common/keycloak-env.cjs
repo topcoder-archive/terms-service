@@ -1,5 +1,5 @@
 Object.assign(process.env, {
-  M2M_PROVIDER: 'keycloak',
+  USE_KEYCLOAK: 'true',
   KEYCLOAK_ISSUER: 'https://terms.test/realms/m2m',
   KEYCLOAK_AUDIENCE: 'https://api.test',
   KEYCLOAK_TOKEN_URL: 'https://terms.test/m2m/token',

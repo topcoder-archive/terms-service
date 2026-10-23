@@ -5,7 +5,7 @@ const nock = require('nock')
 const issuer = 'https://terms.test/realms/m2m'
 const audience = 'https://api.test'
 Object.assign(process.env, {
-  M2M_PROVIDER: 'keycloak',
+  USE_KEYCLOAK: 'true',
   KEYCLOAK_ISSUER: issuer,
   KEYCLOAK_AUDIENCE: audience,
   KEYCLOAK_TOKEN_URL: 'https://terms.test/m2m/token',
@@ -83,7 +83,7 @@ test('outbound provider validates responses and reuses verified credentials', as
 test('Bus wrapper uses the same pinned verifier and Keycloak credentials', async () => {
   const { createRequire } = require('node:module')
   const wrapperRequire = createRequire(require.resolve('tc-bus-api-wrapper'))
-  assert.equal(wrapperRequire('tc-core-library-js/package.json').version, '4.0.0-keycloak.0')
+  assert.equal(wrapperRequire('tc-core-library-js/package.json').version, '4.0.0-keycloak.1')
   const { postEvent } = require('../src/common/helper')
   const bad = nock('https://terms.test').post('/m2m/token').reply(200, { access_token: token({ aud: 'wrong' }), expires_in: 900 })
   await assert.rejects(postEvent('test.topic', {}), /^Error: Keycloak M2M token request failed$/); assert.equal(bad.isDone(), true)
