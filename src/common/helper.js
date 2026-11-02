@@ -9,9 +9,9 @@ const querystring = require('querystring')
 const request = require('superagent')
 const errors = require('./errors')
 const logger = require('./logger')
-const m2mAuth = require('tc-core-library-js').auth.m2m
+const m2mAuth = require('tc-core-library-js').createM2MClient
 const m2m = m2mAuth(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_PROXY_SERVER_URL']))
-const busApi = require('tc-bus-api-wrapper')
+const busApi = require('tc-core-library-js').createBusApiClient
 const busApiClient = busApi(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_CLIENT_ID',
   'AUTH0_CLIENT_SECRET', 'BUSAPI_URL', 'KAFKA_ERROR_TOPIC', 'AUTH0_PROXY_SERVER_URL']))
 const docusign = require('docusign-esign')

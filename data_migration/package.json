@@ -14,13 +14,33 @@
   "license": "none",
   "dependencies": {
     "bluebird": "^3.5.5",
-    "config": "^3.2.0",
-    "informix-wrapper": "git+https://github.com/appirio-tech/informix-wrapper.git#less-logs",
-    "lodash": "^4.17.14",
-    "pg": "^7.10.0",
+    "config": "3.3.12",
+    "informix-wrapper": "git+https://github.com/appirio-tech/informix-wrapper.git#2f9e71adc434250c410bca7e5c32e188c972f9bb",
+    "lodash": "4.18.1",
+    "pg": "8.23.1",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^5.15.1",
-    "uuid": "^3.3.2",
-    "winston": "^3.2.0"
+    "sequelize": "6.37.8",
+    "uuid": "11.1.1",
+    "winston": "^3.2.0",
+    "underscore": "1.13.8"
+  },
+  "overrides": {
+    "java": "0.18.0",
+    "node-gyp": "13.1.0",
+    "glob": "14.0.2",
+    "minimatch": "11.0.1",
+    "brace-expansion": "5.0.12",
+    "underscore": "$underscore",
+    "async": "3.2.6",
+    "color-string": "1.9.1",
+    "dottie": "2.0.7",
+    "lodash": "$lodash",
+    "moment": "2.31.0",
+    "moment-timezone": "0.6.2",
+    "validator": "13.15.35",
+    "uuid": "$uuid"
+  },
+  "engines": {
+    "node": "26.x"
   }
 }

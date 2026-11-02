@@ -73,3 +73,11 @@ run `npm run test` under docusign_callback folder
 
 ## Verification
 Refer to the verification document `Verification.md`
+
+## Security update runtime requirements
+
+Use Node.js 26 and `npm ci` (including the committed `.npmrc` and `tools` directory). The production image uses Alpine's maintained Node runtime, installs production dependencies only, and runs as UID 10001.
+
+The shared authentication client is pinned to tc-core-library-js v4. Configure `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `AUTH0_URL`, and `AUTH0_AUDIENCE` for outbound calls. For inbound requests, supply exact `VALID_ISSUERS`, `JWT_AUDIENCE` for RSA user tokens, and an explicit `AUTH_SECRET` of at least 32 bytes if legacy HMAC user tokens are needed. There is no development secret fallback. Existing route roles and scopes remain enforced.
+
+Run `npm run test:security` for local HTTP authentication and outbound-client regression tests, and `npm run test:dependency-compat` for transitive matcher/glob compatibility. Neither requires live credentials or a database. The existing full suite also requires isolated PostgreSQL and DocuSign fixtures.

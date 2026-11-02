@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4')
+const { v4: uuid } = require('uuid')
 const { executeQueryAsync } = require('../src/common/informixWrapper')
 
 async function clearTestData () {
