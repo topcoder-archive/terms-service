@@ -1,0 +1,11 @@
+**/node_modules
+.git
+.env
+.env.*
+**/*.env
+**/*private*.pem
+npm-debug.log*
+coverage
+.nyc_output
+data_migration
+docusign_callback

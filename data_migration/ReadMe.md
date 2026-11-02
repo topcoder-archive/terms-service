@@ -1,8 +1,8 @@
 # Data Migration Tool
 
 ## Dependencies
-- Node 10
-- Java 8
+- Node 26
+- Java 17 JDK (including native build tools and Python for node-gyp)
 - [informix-wrapper](https://github.com/appirio-tech/informix-wrapper.git)
 
 ## Configuration
@@ -20,7 +20,7 @@ Install related tools and modify informix/postgres connection configurations to 
 
 Install node packages
 ```
-npm install
+npm ci
 ```
 
 example command to start migrate from scratch(It will clear the target database first and start migration from the beginning)
@@ -43,3 +43,5 @@ npm run test-data
 
 ## Note
 You can use `replace/jdbc-wrapper.js` to replace `node_modules/informix-wrapper/lib/jdbc-wrapper.js` in order not to print time usage information of each sql query in console.
+
+The Informix wrapper remains pinned to its existing source commit. It is now a private archived repository, so installation requires GitHub access to `topcoder-archive/appirio_tech-informix-wrapper`. The Java bridge is updated to 0.18.0; Sequelize model loading and UUID imports use the supported APIs. This migration tool is excluded from the API production container. Test migrations against an isolated database before using the destructive restart or clean commands.
