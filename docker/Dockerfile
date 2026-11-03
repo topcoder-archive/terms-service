@@ -10,4 +10,6 @@ WORKDIR /terms-service
 
 # Install the dependencies from package.json
 RUN npm install
+RUN chown -R node:node /terms-service
+USER node
 CMD [ "node", "app.js" ]
