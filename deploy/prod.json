@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 2,
+  "environment": "prod",
+  "accountId": "409275337247",
+  "region": "us-east-1",
+  "deployRoleArn": "arn:aws:iam::409275337247:role/terms-service-prod-deploy",
+  "taskRoleArn": null,
+  "executionRoleArn": "arn:aws:iam::409275337247:role/ecsTaskExecutionRole",
+  "cluster": "terms-service-serverless",
+  "service": "terms-svc",
+  "taskFamily": "terms-service-task",
+  "circleciOrgId": "e3078ac5-d959-4726-ad0d-04083181ee33",
+  "circleciProjectId": "5481dd6c-3a97-447a-8690-0bf8b9e72e03",
+  "repository": "github.com/topcoder-archive/terms-service",
+  "branch": "master",
+  "images": {
+    "terms-service-container": "terms-service"
+  }
+}

@@ -8,3 +8,7 @@ data_migration/.env
 .idea
 .DS_Store
 data_migration/log
+
+# Infrastructure definitions and detailed AWS inventories are maintained privately.
+/deploy/iam/
+/deploy/*-baseline.json
