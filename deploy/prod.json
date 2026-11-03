@@ -9,9 +9,9 @@
   "cluster": "terms-service-serverless",
   "service": "terms-svc",
   "taskFamily": "terms-service-task",
-  "circleciOrgId": "947bef5e-1669-415d-b83c-4fc85155b7df",
-  "circleciProjectId": null,
-  "repository": "github.com/topcoder-platform/terms-service",
+  "circleciOrgId": "e3078ac5-d959-4726-ad0d-04083181ee33",
+  "circleciProjectId": "5481dd6c-3a97-447a-8690-0bf8b9e72e03",
+  "repository": "github.com/topcoder-archive/terms-service",
   "branch": "master",
   "images": {
     "terms-service-container": "terms-service"
